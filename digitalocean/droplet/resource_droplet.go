@@ -59,7 +59,7 @@ func ResourceDigitalOceanDroplet() *schema.Resource {
 		Timeouts: &schema.ResourceTimeout{
 			Create: schema.DefaultTimeout(60 * time.Minute),
 			Update: schema.DefaultTimeout(60 * time.Minute),
-			Delete: schema.DefaultTimeout(10 * time.Minute),
+			Delete: schema.DefaultTimeout(90 * time.Second),
 		},
 
 		Schema: map[string]*schema.Schema{
@@ -911,7 +911,7 @@ func waitForDropletDestroy(ctx context.Context, d *schema.ResourceData, meta int
 		Pending:    []string{"active", "off"},
 		Target:     []string{http.StatusText(http.StatusNotFound)},
 		Refresh:    dropletStateRefreshFunc(ctx, d, "status", meta, dropletOpDelete),
-		Timeout:    60 * time.Second,
+		Timeout:    90 * time.Second,
 		Delay:      10 * time.Second,
 		MinTimeout: 3 * time.Second,
 	}
